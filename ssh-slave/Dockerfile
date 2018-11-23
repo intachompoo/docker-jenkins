@@ -1,0 +1,9 @@
+FROM jenkinsci/ssh-slave
+
+# install Maven
+USER root
+RUN apt-get update && apt-get install -y maven
+RUN chown jenkins:jenkins -R /home/jenkins
+
+USER jenkins
+WORKDIR /home/jenkins

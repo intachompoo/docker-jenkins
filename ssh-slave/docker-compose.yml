@@ -1,0 +1,15 @@
+jenkins_slave:
+    image: intachompoo/jenkins-slave
+    container_name: jenkins-slave
+    environment:
+      JAVA_OPTS: "-Xmx2048m"
+      JENKINS_URL: "http://jenkins-master:8080"
+      JENKINS_SECRET: "9342fb2b08caeb4e6643afa29609e346a24a08331ab0f38cc98733de0d2cf284"
+      JENKINS_AGENT_NAME: "jnlp-docker-slave"
+      #JENKINS_NAME: "slave"
+      #JENKINS_USER: "admin"
+      #JENKINS_PASS: "admin"
+      JENKINS_RETRY: "10"
+    # command: -url http://jenkins-master:8080 9342fb2b08caeb4e6643afa29609e346a24a08331ab0f38cc98733de0d2cf284 jnlp-docker-slave
+    volumes:
+      - /mnt/jenkins_slave:/var/jenkins_home
