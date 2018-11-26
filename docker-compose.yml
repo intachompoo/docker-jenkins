@@ -16,14 +16,14 @@ services:
       - jenkins-net
 
   worker:
-    image: intachompoo/jenkins-slave
+    image: intachompoo/jenkins-slave:2.1
     container_name: jenkins_slave
     depends_on:
       - master
     environment:
       JENKINS_URL: "http://master:8080"
      # JENKINS_TUNNEL: "master:50000"
-      JENKINS_SECRET: "1833787fd9283e59d78044133952ac0d3a76337c5f821684a10e80c9c2e34436"
+      JENKINS_SECRET: "31bc7a67a6527664eabae6de4f576e49511b5c8f3ab838a426d8001b8624d3ef"
       JENKINS_AGENT_NAME: "jnlp-docker-slave"
       JENKINS_AGENT_WORKDIR: "/home/jenkins/agent"
     volumes:

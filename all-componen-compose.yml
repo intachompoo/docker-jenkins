@@ -1,0 +1,115 @@
+version: "2"
+services:
+  jenkinsmaster:
+    image: intachompoo/jenkins-master:2.1
+    #container_name: jenkins_master
+    ports:
+      - "50000:50000"
+      - "8080:8080"
+    environment:
+      #JNLP_PROTOCOL_OPTS: "-Dorg.jenkinsci.remoting.engine.JnlpProtocol3.disabled=false"
+      JAVA_OPTS: "-Djava.awt.headless=true"
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false" # Start jenkins unlocked
+    volumes:
+      - jenkins-master:/var/jenkins_home
+    networks:
+      - jenkins-net
+
+  jenkinsslave:
+    image: intachompoo/jenkins-slave:2.1
+    #container_name: jenkins_slave
+    depends_on:
+      - jenkinsmaster
+    environment:
+      JENKINS_URL: "http://jenkinsmaster:8080"
+     # JENKINS_TUNNEL: "master:50000"
+      JENKINS_SECRET: "83c16f4c39a5c82004cb35b724c3f1d3616cf660f79bf04482363e7aae51843a"
+      JENKINS_AGENT_NAME: "jnlp-docker-slave"
+      JENKINS_AGENT_WORKDIR: "/home/jenkins/agent"
+    volumes:
+      - jenkins-worker:/var/jenkins_home/worker
+    networks:
+      - jenkins-net
+  postgres:
+    image: postgres:9.5
+    #container_name: postgres
+    restart: always
+    environment:
+     - "POSTGRES_USER=postadm"
+     - "POSTGRES_PASSWORD=postadm"
+     - "POSTGRES_DB=sonar"
+    volumes:
+     - postgres-db-data:/var/lib/postgresql/data
+    networks:
+      - jenkins-net
+
+  gogs:
+    image: gogs/gogs
+    #container_name: gogs
+    restart: always
+    ports:
+     - "10022:22"
+     - "3000:3000"
+    links:
+     - postgres
+    environment:
+     - "RUN_CROND=true"
+    networks:
+      - jenkins-net
+    volumes:
+     - gogs-data:/data
+    depends_on:
+     - postgres
+
+  sonarqube:
+    image: sonarqube
+    #container_name: sonarqube
+    ports:
+     - "9000:9000"
+    networks:
+     - sonarnet
+    environment:
+     SONARQUBE_JDBC_USERNAME: postadm
+     SONARQUBE_JDBC_PASSWORD: postadm
+     SONARQUBE_JDBC_URL: jdbc:postgresql://postgres:5432/sonar
+     # - SONARQUBE_JDBC_URL=jdbc:postgresql://postgres:5432/sonar
+    volumes:
+     #- sonarqube_conf:/opt/sonarqube/conf
+     - sonarqube_data:/opt/sonarqube/data
+     #- sonarqube_extensions:/opt/sonarqube/extensions
+     - sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+    depends_on:
+     - postgres
+    networks:
+     - jenkins-net
+
+  chrome:
+    image: selenium/node-chrome
+    #container_name: selenium-node-chrome
+    volumes:
+     - /dev/shm:/dev/shm
+    depends_on:
+     - hub
+    environment:
+     HUB_HOST: hub
+    networks:
+     - jenkins-net
+
+  hub:
+    image: selenium/hub
+    #container_name: selenium-hub
+    ports:
+     - "4444:4444"
+    networks:
+     - jenkins-net
+
+volumes:
+  jenkins-master:
+  jenkins-worker:
+  postgres-db-data:
+  gogs-data:
+  sonarqube_data:
+  sonarqube_bundled-plugins:
+networks:
+  jenkins-net:
+
