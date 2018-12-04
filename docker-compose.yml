@@ -74,8 +74,6 @@ services:
     #container_name: sonarqube
     ports:
      - "9000:9000"
-    networks:
-     - sonarnet
     environment:
      SONARQUBE_JDBC_USERNAME: postadm
      SONARQUBE_JDBC_PASSWORD: postadm
