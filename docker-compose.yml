@@ -9,7 +9,7 @@ services:
       - "50000:50000"
       - "8080:8080"
     environment:
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Djava.awt.headless=true " # Start jenkins unlocked
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Djava.awt.headless=true" # Start jenkins unlocked
     volumes:
       - jenkins-master:/var/jenkins_home
     networks:
