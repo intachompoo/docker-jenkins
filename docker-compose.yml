@@ -9,16 +9,14 @@ services:
       - "50000:50000"
       - "8080:8080"
     environment:
-      #JNLP_PROTOCOL_OPTS: "-Dorg.jenkinsci.remoting.engine.JnlpProtocol3.disabled=false"
-      JAVA_OPTS: "-Djava.awt.headless=true"
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false" # Start jenkins unlocked
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Djava.awt.headless=true " # Start jenkins unlocked
     volumes:
       - jenkins-master:/var/jenkins_home
     networks:
       - jenkins-net
 
   jenkinsslave:
-    image: intachompoo/jenkins-slave:2.1
+    image: intachompoo/jenkins-slave:2.3
     #container_name: jenkins_slave
     restart: always
     mem_limit: 4g
@@ -26,12 +24,12 @@ services:
       - jenkinsmaster
     environment:
       JENKINS_URL: "http://jenkinsmaster:8080"
-     # JENKINS_TUNNEL: "master:50000"
       JENKINS_SECRET: "83c16f4c39a5c82004cb35b724c3f1d3616cf660f79bf04482363e7aae51843a"
       JENKINS_AGENT_NAME: "jnlp-docker-slave"
       JENKINS_AGENT_WORKDIR: "/home/jenkins/agent"
     volumes:
       - jenkins-worker:/var/jenkins_home/worker
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - jenkins-net
   postgres:
