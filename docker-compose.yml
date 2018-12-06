@@ -24,7 +24,7 @@ services:
       - jenkinsmaster
     environment:
       JENKINS_URL: "http://jenkinsmaster:8080"
-      JENKINS_SECRET: "83c16f4c39a5c82004cb35b724c3f1d3616cf660f79bf04482363e7aae51843a"
+      JENKINS_SECRET: "83c16f4c39a5c82004cb35b724c3f1d3616cf660f79bf04482363e7aae51843aaa"
       JENKINS_AGENT_NAME: "jnlp-docker-slave"
       JENKINS_AGENT_WORKDIR: "/home/jenkins/agent"
     volumes:
@@ -120,4 +120,3 @@ volumes:
   sonarqube_bundled-plugins:
 networks:
   jenkins-net:
-
