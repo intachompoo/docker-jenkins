@@ -1,5 +1,5 @@
 jenkins_slave:
-    image: intachompoo/jenkins-slave
+    image: intachompoo/jenkins-slave:2.3
     container_name: jenkins-slave
     command: -url http://172.17.0.2:8080 8444b5e34dad68254abcdb7fd881af3539237b0c6e1cc858cbbb9207d89a121a jnlp-docker-slave
     restart: always
