@@ -1,4 +1,5 @@
 FROM jenkinsci/jnlp-slave
+MAINTAINER Nattawat intachompoo
 
 # install Maven
 USER root
