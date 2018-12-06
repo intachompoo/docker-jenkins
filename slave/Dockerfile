@@ -13,6 +13,9 @@ RUN wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift
 RUN chown jenkins:jenkins -R /home/jenkins
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
+#Set timezone
+RUN cp -p /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
+
 COPY chromedriver /usr/bin/chromedriver
 
 ENV DOCKERVERSION=18.06.1-ce
