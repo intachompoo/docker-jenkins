@@ -9,7 +9,7 @@ services:
       - "50000:50000"
       - "8080:8080"
     environment:
-      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Djava.awt.headless=true" # Start jenkins unlocked
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false -Djava.awt.headless=true -Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Bangkok" # Start jenkins unlocked
     volumes:
       - jenkins-master:/var/jenkins_home
     networks:
@@ -27,6 +27,7 @@ services:
       JENKINS_SECRET: "83c16f4c39a5c82004cb35b724c3f1d3616cf660f79bf04482363e7aae51843aaa"
       JENKINS_AGENT_NAME: "jnlp-docker-slave"
       JENKINS_AGENT_WORKDIR: "/home/jenkins/agent"
+      JAVA_OPTS: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Bangkok"
     volumes:
       - jenkins-worker:/var/jenkins_home/worker
       - /var/run/docker.sock:/var/run/docker.sock
