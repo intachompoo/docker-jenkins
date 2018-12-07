@@ -28,7 +28,7 @@ RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${
 
 
 USER jenkins
-RUN pip install awscli
+RUN pip install awscli robotframework robotframework-selenium2library
 
 USER root
 RUN cp ~/.local/bin/aws /usr/bin/aws
