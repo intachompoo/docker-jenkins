@@ -32,6 +32,8 @@ RUN pip install awscli robotframework robotframework-selenium2library
 
 USER root
 RUN cp ~/.local/bin/aws /usr/bin/aws
+RUN groupadd docker
+RUN usermod -aG docker jenkins
 
 USER jenkins
 WORKDIR /home/jenkins
