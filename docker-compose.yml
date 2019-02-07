@@ -1,7 +1,7 @@
 version: "2"
 services:
   jenkinsmaster:
-    image: intachompoo/jenkins-master:2.2
+    image: intachompoo/jenkins-master:2.4
     #container_name: jenkins_master
     restart: always
     mem_limit: 4g
