@@ -38,26 +38,6 @@ services:
     networks:
       - jenkins-net
 
-  jenkinsslave2:
-    image: intachompoo/jenkins-slave:2.4
-    #container_name: jenkins_slave
-    restart: always
-    mem_limit: 4g
-    depends_on:
-      - jenkinsmaster
-    environment:
-      JENKINS_URL: "http://jenkinsmaster:8080"
-     # JENKINS_TUNNEL: "master:50000"
-      JENKINS_SECRET: "0594274d52c12de553656070e5c8679c2fdbd0dc5ee37ecd9f5ff241a044fab1"
-      JENKINS_AGENT_NAME: "jnlp-docker-slave02"
-      JENKINS_AGENT_WORKDIR: "/home/jenkins/agent"
-      JAVA_OPTS: "-Dorg.apache.commons.jelly.tags.fmt.timeZone=Asia/Bangkok"
-    volumes:
-      - jenkins-worker:/var/jenkins_home/worker
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/docker:/etc/docker
-    networks:
-      - jenkins-net
   postgres:
     image: postgres:9.5
     #container_name: postgres
